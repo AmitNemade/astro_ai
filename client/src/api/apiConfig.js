@@ -1,7 +1,7 @@
 import axios from "axios";
 import { User } from "../utils/User";
 
-export const baseURL = process.env.REACT_APP_NODE_ENV === "production" ? process.env.REACT_APP_PRODUCTION_BASE_URL : process.env.REACT_APP_DEVELOPMENT_BASE_URL;
+export const baseURL = process.env.REACT_APP_NODE_ENV === "production" ? "https://astro-ai-backend.vercel.app/api/v1/" : process.env.REACT_APP_DEVELOPMENT_BASE_URL;
 
 const axiosClient = axios.create({
   baseURL: baseURL,
