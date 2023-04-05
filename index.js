@@ -17,6 +17,9 @@ app.use(cors());
 // Add Routes
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/person", personRouter);
+app.use("/", (req, res)=>{
+  res.status(200).send(`<h1>AstroAI backend working successfully in ${process.env.NODE_ENV} environment</h1>`)
+});
 
 const port = process.env.PORT || 4000;
 connectToDB()
