@@ -5,9 +5,11 @@ import { User } from "../../utils/User";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import ShowParticles from "../particles";
+import {SpinnerGap} from "phosphor-react"
 
 const Login = () => {
   const [values, setValues] = React.useState({ email: "", password: "" });
+  const [submittingForm,setSubmittingForm] =React.useState(false)
   const navigate = useNavigate();
 
   const handleOnChange = (e) => {
@@ -15,6 +17,7 @@ const Login = () => {
   };
 
   const onSubmitForm = async (e) => {
+    setSubmittingForm(true)
     e.preventDefault();
     try {
       const response = await UserService.login({ data: values });
@@ -26,6 +29,8 @@ const Login = () => {
     } catch (e) {
       console.log(e);
       toast.error(e.error_message);
+    }finally{
+      setSubmittingForm(false)
     }
   };
 
@@ -91,9 +96,10 @@ const Login = () => {
           </div>
           <button
             type="submit"
+            disabled={submittingForm}
             className="px-4 py-2 font-bold tracking-wide text-white bg-orange-600 rounded-md hover:bg-orange-700"
           >
-            Login
+          {submittingForm ? <SpinnerGap size={20} className="mx-auto animate-spin" />:  "Login"}
           </button>
         </form>
         <div className="flex flex-col w-full mt-2">

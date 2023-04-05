@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 import dayjs from "dayjs";
 import { PersonService } from "../api/PersonService";
 import { useNavigate } from "react-router-dom";
+import {SpinnerGap} from "phosphor-react"
 
 const isEmpty = (val) =>
   val === null ||
@@ -21,6 +22,7 @@ const AddPersonForm = ({
   onSuccess,
 }) => {
   const [birthDetails, setBirthDetails] = React.useState({});
+  const [submittingForm,setSubmittingForm] =React.useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,6 +42,7 @@ const AddPersonForm = ({
   };
 
   const onSubmitForm = async (e) => {
+    setSubmittingForm(true)
     e.preventDefault();
     try {
       const date = dayjs(birthDetails.date);
@@ -91,6 +94,8 @@ const AddPersonForm = ({
     } catch (e) {
       console.log(e);
       toast.error(e.error_message);
+    }finally{
+      setSubmittingForm(false)
     }
   };
   console.log(birthDetails);
@@ -103,7 +108,7 @@ const AddPersonForm = ({
         <input
           type="text"
           name="name"
-          placeholder="Enter your name"
+          placeholder="Enter person name"
           value={birthDetails.name}
           onChange={handleBirthDetailChange}
           className="w-full text-black bg-transparent border-0 placeholder:text-theme-primary-500 placeholder:font-light focus:outline-none"
@@ -133,16 +138,17 @@ const AddPersonForm = ({
               <input
                 type="text"
                 name="location"
-                placeholder="Location"
+                placeholder="Birth location"
                 value={birthDetails.location}
                 onChange={handleBirthDetailChange}
                 className="w-full text-black bg-transparent border-0 placeholder:text-theme-primary-500 placeholder:font-light focus:outline-none"
               />
               <button
                 type="submit"
+                disabled={submittingForm}
                 className="w-full py-1 text-white rounded bg-theme-primary-500/80 hover:bg-theme-primary-500/90"
               >
-                {type === "add" ? "Add Person" : "Update Person"}
+                {submittingForm ? <SpinnerGap size={20} className="mx-auto animate-spin" />:type === "add" ? "Add Person" : "Update Person"}
               </button>
             </div>
           </div>

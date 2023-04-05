@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { UserService } from "../../api/UserService";
 import { toast } from "react-hot-toast";
 import ShowParticles from "../particles";
+import {SpinnerGap} from "phosphor-react"
 
 const Signup = () => {
   const [values, setValues] = React.useState({
@@ -10,12 +11,14 @@ const Signup = () => {
     password: "",
     confirm_password: "",
   });
+  const [submittingForm,setSubmittingForm] =React.useState(false)
 
   const handleOnChange = (e) => {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const onSubmitForm = async (e) => {
+    setSubmittingForm(true)
     e.preventDefault();
     try {
       console.log(values);
@@ -25,6 +28,8 @@ const Signup = () => {
     } catch (e) {
       console.log(e);
       toast.error(e.error_message);
+    }finally{
+      setSubmittingForm(false)
     }
   };
 
@@ -104,9 +109,10 @@ const Signup = () => {
           </div>
           <button
             type="submit"
+            disabled={submittingForm}
             className="px-4 py-2 font-bold tracking-wide text-white bg-orange-600 rounded-md hover:bg-orange-700"
           >
-            Create Account
+           {submittingForm ? <SpinnerGap size={20} className="mx-auto animate-spin" />: "Create Account"}
           </button>
         </form>
         <div className="mt-2 text-sm text-black">
