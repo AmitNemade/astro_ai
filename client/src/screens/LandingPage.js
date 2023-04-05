@@ -79,7 +79,7 @@ const LandingPage = () => {
                     Login
                   </Link>
                   <Link
-                    to="/auth/signup"
+                    to="/auth/register"
                     className="p-2 uppercase bg-white rounded hover:bg-white/90"
                   >
                     Register
