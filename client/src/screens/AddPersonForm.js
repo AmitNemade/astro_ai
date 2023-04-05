@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast";
 import dayjs from "dayjs";
 import { PersonService } from "../api/PersonService";
 import { useNavigate } from "react-router-dom";
-import {SpinnerGap} from "phosphor-react"
+import { SpinnerGap } from "phosphor-react"
 
 const isEmpty = (val) =>
   val === null ||
@@ -22,7 +22,7 @@ const AddPersonForm = ({
   onSuccess,
 }) => {
   const [birthDetails, setBirthDetails] = React.useState({});
-  const [submittingForm,setSubmittingForm] =React.useState(false)
+  const [submittingForm, setSubmittingForm] = React.useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -94,7 +94,7 @@ const AddPersonForm = ({
     } catch (e) {
       console.log(e);
       toast.error(e.error_message);
-    }finally{
+    } finally {
       setSubmittingForm(false)
     }
   };
@@ -148,7 +148,7 @@ const AddPersonForm = ({
                 disabled={submittingForm}
                 className="w-full py-1 text-white rounded bg-theme-primary-500/80 hover:bg-theme-primary-500/90"
               >
-                {submittingForm ? <SpinnerGap size={20} className="mx-auto animate-spin" />:type === "add" ? "Add Person" : "Update Person"}
+                {submittingForm ? <SpinnerGap size={20} className="mx-auto animate-spin" /> : type === "add" ? "Add Person" : "Update Person"}
               </button>
             </div>
           </div>
@@ -165,7 +165,7 @@ const AddPersonForm = ({
             <div className="flex justify-center w-full font-medium text-center text-white">
               Select Person from below
             </div>
-            {persons?.length === 0 ? (
+            {(persons ?? [])?.length === 0 ? (
               <div className="text-white/40">--- No persons added ---</div>
             ) : (
               persons?.map((p) => (
