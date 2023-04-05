@@ -15,7 +15,9 @@ import toast from "react-hot-toast";
 import AddPersonForm from "./AddPersonForm";
 
 const AskAstro = () => {
+  const [loading,setLoading] = React.useState(false);
   const [query, setQuery] = React.useState("");
+  const [retryQuery, setRetryQuery] = React.useState("");
   const [showAddPerson, setShowAddPerson] = React.useState(-1); // -1 false, 0 add, id edit
   const isLoggedIn = !!UserUtil.getToken();
   let { id } = useParams();
@@ -39,8 +41,8 @@ const AskAstro = () => {
 
   const askQuestion = async () => {
     try {
-      const lastChat = person.conversation[person.conversation.length - 1];
-      let message = lastChat.role === "error" ? lastChat.message : query;
+      const lastChat = person.conversation[person.conversation.length - 1] ?? {};
+      let message = lastChat.role === "error" ? retryQuery : query;
       setPerson((prev) => ({
         ...prev,
         conversation: [
@@ -56,6 +58,7 @@ const AskAstro = () => {
         ...prev,
         conversation: [...prev.conversation, { ...response.result }],
       }));
+      setRetryQuery("")
     } catch (e) {
       console.log(e);
       setPerson((prev) => ({
@@ -65,6 +68,7 @@ const AskAstro = () => {
           { role: "error", message: e.error.message },
         ],
       }));
+      setRetryQuery(query)
       toast.error(e.error.message);
     } finally {
       setQuery("");
@@ -77,11 +81,20 @@ const AskAstro = () => {
   };
 
   const fetchUserDetails = async () => {
+    setLoading(true)
     const response = await UserService.getUserDetails();
     setUserDetails(response.user);
     const response1 = await PersonService.getPersonDetails(id);
     setPerson(response1.person);
+    setLoading(false)
   };
+
+  if(loading){
+    return <div className="relative flex flex-col items-center justify-center w-full h-screen max-h-screen min-h-screen overflow-clip">
+      <img src={"https://png.monster/wp-content/uploads/2022/09/png.monster-207.png"} className="w-20 h-auto animate-[spin_2s_linear_infinite]" alt="loader"/>
+      <div className="mt-5 text-xl font-semibold tracking-widest text-theme-secondary-500">Loading</div>
+    </div>
+  }
 
   return (
     <div className="relative flex flex-col w-full h-screen max-h-screen min-h-screen md:flex-row overflow-clip">

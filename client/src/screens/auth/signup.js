@@ -1,11 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserService } from "../../api/UserService";
 import { toast } from "react-hot-toast";
 import ShowParticles from "../particles";
 import {SpinnerGap} from "phosphor-react"
 
 const Signup = () => {
+  const navigate = useNavigate()
   const [values, setValues] = React.useState({
     email: "",
     password: "",
@@ -25,6 +26,7 @@ const Signup = () => {
       const response = await UserService.register({ data: values });
       console.log(response);
       toast.success(response.message);
+      navigate("/auth/login")
     } catch (e) {
       console.log(e);
       toast.error(e.error_message);

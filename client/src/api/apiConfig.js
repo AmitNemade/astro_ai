@@ -5,7 +5,7 @@ export const baseURL = process.env.REACT_APP_NODE_ENV === "production" ? process
 
 const axiosClient = axios.create({
   baseURL: baseURL,
-  timeout: 30000,
+  timeout: 60000,
 });
 
 const API = async (

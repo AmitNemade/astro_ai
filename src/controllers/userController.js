@@ -3,13 +3,11 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import _ from "lodash";
 
-const emailRegex = /^[\w-\.+]+@([\w-]+\.)+[\w-]{2,4}$/g;
-
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (_.isEmpty(email.trim()) || !emailRegex.test(email))
+    if (_.isEmpty(email.trim()) || !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
       return res.status(422).send({
         success: false,
         error_message: "Enter a valid email",
@@ -56,7 +54,7 @@ export const register = async (req, res) => {
   try {
     const { email, password, confirm_password } = req.body;
 
-    if (_.isEmpty(email.trim()) || !emailRegex.test(email))
+    if (_.isEmpty(email.trim()) || !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
       return res.status(422).send({
         success: false,
         error_message: "Enter a valid email",

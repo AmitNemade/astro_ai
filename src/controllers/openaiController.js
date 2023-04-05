@@ -66,13 +66,13 @@ export default async function (req, res) {
       message: query,
       user_id: person._id,
     });
-    person_query.save();
+    await person_query.save();
     const assistant_query = new Chat({
       message: completion.data.choices[0].message.content,
       role: completion.data.choices[0].message.role,
       user_id: person._id,
     });
-    assistant_query.save();
+    await assistant_query.save();
     return res.status(200).json({
       success: true,
       result: {
