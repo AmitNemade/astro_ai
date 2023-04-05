@@ -1,13 +1,12 @@
 import dotenv from "dotenv";
-dotenv.config();
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import path from "path";
 import { connectToDB } from "./config/dbConfig.js";
 import userRouter from "./src/routes/userRoutes.js";
 import personRouter from "./src/routes/personRoutes.js";
 
+dotenv.config({ path: `.env.${process.env.NODE_ENV ?? 'development'}` })
 const app = express();
 
 app.use(express.json());
