@@ -13,6 +13,7 @@ const API = async (
   shouldAppendToken = true,
   customToken = null
 ) => {
+  console.log(process.env.REACT_APP_NODE_ENV)
   // Success
   const onSuccess = (response) => {
     return Promise.resolve(response?.data);
