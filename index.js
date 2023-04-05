@@ -18,7 +18,7 @@ app.use(cors());
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/person", personRouter);
 
-const port = process.env.SERVER_PORT || 4000;
+const port = process.env.PORT || 4000;
 connectToDB()
   .then(() => {
     app.listen(port, () => {
